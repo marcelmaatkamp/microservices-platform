@@ -11,16 +11,18 @@ services:
  nodepki:
   image: adito/nodepki-docker
   volumes:
-   - nodepki-nexus:/certs/nexus
-   - nodepki-gitlab:/certs/gitlab
-   - data:/root/nodepki/data
-   - data:/root/nodepki-client/data
-   - data:/root/nodepki-webclient/data
+   - ./nodepki/root.cert.pem:/root/nodepki-webclient/data/mypki/root/root.cert.pem:rw
+   - ./nodepki/conf/http_server.conf:/etc/supervisor/conf.d/http_server.conf
    - ./docker-nodepki/applications/nodepki/data/config:/root/nodepki/data/config
    - ./docker-nodepki/applications/nodepki-client/data/config:/root/nodepki-client/data/config
    - ./docker-nodepki/applications/nodepki-webclient/data/config:/root/nodepki-webclient/data/config
    - ./docker-nodepki/applications/nodepki-webclient/api/webclient/controllers/request.js:/root/nodepki-webclient/controllers/request.js
-   - ./conf/http_server.conf:/etc/supervisor/conf.d/http_server.conf
+   - nodepki-data:/root/nodepki/data
+   - nodepki-data:/root/nodepki-client/data
+   - nodepki-data:/root/nodepki-webclient/data
+   - nodepki-certs-nexus:/certs/nexus
+   - nodepki-certs-gitlab:/certs/gitlab
+   - nodepki-certs-gitlab-runner-01:/certs/gitlab-runner-01
   environment:
    - API_USERNAME=${API_USERNAME}
    - API_PASSWORD=${API_PASSWORD}
@@ -31,14 +33,10 @@ services:
   volumes:
    - nexus-data:${NEXUS_DATA}
    - nexus-back:/backup
-   - nodepki-gitlab:/certs/gitlab
-   - ./etc/nexus.properties:/nexus-data/etc/nexus.properties
+   - nodepki-certs-nexus:/certs/nexus
+   - ./nexus/etc/nexus.properties:/nexus-data/etc/nexus.properties
   environment:
    - JKS_PASSWORD=${JKS_PASSWORD}
-# ports:
-#  - 443
-#  - 8081
-#  - 5000
 
  gitlab:
   image: 'gitlab/gitlab-ce:latest'
@@ -52,7 +50,7 @@ services:
   volumes:
     - 'gitlab-log:/var/log/gitlab'
     - 'gitlab-data:/var/opt/gitlab'
-    - nodepki-gitlab:/etc/gitlab/ssl
+    - nodepki-certs-gitlab:/etc/gitlab/ssl
     - ./trusted:/etc/gitlab/trusted-certs
 
  gitlab-dind:
@@ -79,6 +77,8 @@ volumes:
  dind-data:
  nexus-data:
  nexus-back:
- data:
- nodepki-nexus:
- nodepki-gitlab:
+ nodepki-root:
+ nodepki-data:
+ nodepki-certs-nexus:
+ nodepki-certs-gitlab:
+ nodepki-certs-gitlab-runner-01:
