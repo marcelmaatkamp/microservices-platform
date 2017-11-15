@@ -96,9 +96,17 @@ docker-compose up -d gitlab
 $ docker-compose up -d gitlab-dind
 ```
 
- root.crt -> /etc/ssl/certs/ca-certificates.crt
- $ update-ca-certificates
- $ docker pull alpine
+Add root.crt -> /etc/ssl/certs/ca-certificates.crt
+
+```
+$ docker-compose exec gitlab-dind update-ca-certificates
+```
+
+Test with a pull of alpine:
+
+```
+$ docker-compose exec gitlab-dind docker pull alpine
+```
 
 ## Gitlab-runner
 
