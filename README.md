@@ -69,6 +69,8 @@ $ docker-compose up -d nexus
 ```
 goto https://nexus:8443
 
+[[ SCREENSHOT GREEN SSL CONNECTION ]]
+
 # Gitlab
 
 ## Start gitlab:
@@ -76,6 +78,8 @@ goto https://nexus:8443
 ```
 docker-compose up -d gitlab
 ```
+
+[[ SCREENSHOT GREEN SSL CONNECTION ]]
 
 ## gitlab-dind:
 
@@ -89,7 +93,7 @@ $ docker-compose up -d gitlab-dind
 
 ## Gitlab-runner
 
-[[ SCREENSHOT ADMIN GENERIC RUNNER ID ]]
+[[ SCREENSHOT ADMIN GENERIC RUNNER ID IN GITLAB ]]
 
 Create the certificate file at: 
  - `/etc/gitlab-runner/certs/gitlab.crt` on *nix systems when gitlab-runner is executed as root
