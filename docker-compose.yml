@@ -11,15 +11,16 @@ services:
  nodepki:
   image: adito/nodepki-docker
   volumes:
-   - ./nodepki/root.cert.pem:/root/nodepki-webclient/data/mypki/root/root.cert.pem:rw
-   - ./nodepki/conf/http_server.conf:/etc/supervisor/conf.d/http_server.conf
+   - ./nodepki/data:/root/nodepki/data
+   - ./nodepki/data:/root/nodepki-client/data
+   - ./nodepki/data:/root/nodepki-webclient/data
+
    - ./docker-nodepki/applications/nodepki/data/config:/root/nodepki/data/config
    - ./docker-nodepki/applications/nodepki-client/data/config:/root/nodepki-client/data/config
    - ./docker-nodepki/applications/nodepki-webclient/data/config:/root/nodepki-webclient/data/config
    - ./docker-nodepki/applications/nodepki-webclient/api/webclient/controllers/request.js:/root/nodepki-webclient/controllers/request.js
-   - nodepki-data:/root/nodepki/data
-   - nodepki-data:/root/nodepki-client/data
-   - nodepki-data:/root/nodepki-webclient/data
+   - ./conf/http_server.conf:/etc/supervisor/conf.d/http_server.conf
+
    - nodepki-certs-nexus:/certs/nexus
    - nodepki-certs-gitlab:/certs/gitlab
    - nodepki-certs-gitlab-runner-01:/certs/gitlab-runner-01
@@ -30,6 +31,10 @@ services:
  nexus:
   image: clearent/nexus:latest
   restart: always
+  expose:
+   - "443"
+  cap_add:
+   - NET_BIND_SERVICE
   volumes:
    - nexus-data:${NEXUS_DATA}
    - nexus-back:/backup
