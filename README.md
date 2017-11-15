@@ -44,7 +44,7 @@ goto http://nodepki:5000 and login:
 
 <img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_root.png" width="250" >
 
-[[ SCREENSHOT APPLE KEYSTORE ]]
+[[ SCREENSHOT OSX KEYSTORE ]]
 <img src="" width="250" >
 
 ## Generate server certificates 
