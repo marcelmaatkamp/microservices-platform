@@ -30,7 +30,8 @@ $ docker-compose run nodepki ash -c "cd /root/nodepki && node /root/nodepki/node
 $ docker-compose up -d nodepki
 ```
 
-goto http://nodepki:5000 anf login
+goto http://nodepki:5000 and login:
+
 <img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_user.png" width="250" >
 
 <img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_loggedin.png" width="250" >
