@@ -83,11 +83,12 @@ goto https://nexus:8443
 
 ## Start gitlab:
 
-| - | - | 
-| root.pem | /etc/gitlab/trusted-certs/ | 
-| intermediate.pem | /etc/gitlab/trusted-certs/ |
-| domain.key | /etc/gitlab/ssl/gitlab.key |
-| chained.pem | /etc/gitlab/ssl/gitlab.crt |
+file | location
+-- | --
+root.pem | /etc/gitlab/trusted-certs/ 
+intermediate.pem | /etc/gitlab/trusted-certs/
+domain.key | /etc/gitlab/ssl/gitlab.key 
+chained.pem | /etc/gitlab/ssl/gitlab.crt 
 
 where chained.pem = 
  * signed.crt +
