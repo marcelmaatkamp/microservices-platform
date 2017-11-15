@@ -32,6 +32,7 @@ $ docker-compose up -d nodepki
 
 goto http://nodepki:5000 anf login
 <img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_user.png" width="250" >
+
 <img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_loggedin.png" width="250" >
 
 ## Trust root certificate 
@@ -85,6 +86,7 @@ docker-compose up -d gitlab
 ```
 
 [[ SCREENSHOT GREEN SSL CONNECTION GITLAB]]
+
 <img src="" width="250" >
 
 ## gitlab-dind:
@@ -100,6 +102,7 @@ $ docker-compose up -d gitlab-dind
 ## Gitlab-runner
 
 [[ SCREENSHOT ADMIN GENERIC RUNNER ID IN GITLAB ]]
+
 <img src="" width="250" >
 
 Create the certificate file at: 
