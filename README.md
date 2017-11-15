@@ -21,7 +21,9 @@ Start proxy, opens a SOCKS5 proxy on port :1080
 docker-compose up -d proxy
 ```
 
-# nodepki
+# NodePKI
+
+[[ SCREENSHOT NODEPKI ]] 
 
 Add user thomas/test:
 
@@ -30,6 +32,8 @@ $ docker-compose run nodepki ash -c "cd /root/nodepki && node /root/nodepki/node
 $ docker-compose up -d nodepki
 ```
 
+## Trust root certificate 
+
 goto http://nodepki:5000 and 
 
  * import root and
@@ -37,11 +41,15 @@ goto http://nodepki:5000 and
 
 [[ SCREENSHOT APPLE KEYSTORE ]]
 
+## Generate server certificates 
+
 Request new certificate for servers
 
  - nexus
  - gitlab
  - gitlab-runner
+
+[[ SCREENSHOT SERVER CERTS ]]
 
 This generates in /certs/hostname/ like /certs/gitlab the following files:
 
@@ -71,8 +79,37 @@ docker-compose up -d gitlab
 
 ## gitlab-dind:
 
+```
+$ docker-compose up -d gitlab-dind
+```
+
  root.crt -> /etc/ssl/certs/ca-certificates.crt
  $ update-ca-certificates
  $ docker pull alpine
 
 ## Gitlab-runner
+
+[[ SCREENSHOT ADMIN GENERIC RUNNER ID ]]
+
+Create the certificate file at: 
+ - `/etc/gitlab-runner/certs/gitlab.crt` on *nix systems when gitlab-runner is executed as root
+ - `~/.gitlab-runner/certs/gitlab.crt` *nix systems when gitlab-runner is executed as non-root
+ - `./certs/gitlab.crt` on other systems
+
+```
+$ docker-compose exec gitlab-runner update-ca-certificates
+$ docker-compose run gitlab-runner register -n \
+ --url https://gitlab:8443 \
+ --registration-token <<GENERIC_TOKEN_ID>> \
+ --executor docker \
+ --docker-image docker:17.06.0-ce \
+ --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+$ docker-compose up -d gitlab-runner
+```
+
+## Validate connection
+
+```
+$ docker-compose exec gitlab-runner openssl s_client -connect gitlab:8443
+```
+
