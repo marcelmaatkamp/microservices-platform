@@ -23,8 +23,6 @@ docker-compose up -d proxy
 
 # NodePKI
 
-[[ SCREENSHOT NODEPKI ]] 
-
 Add user thomas/test:
 
 ```
@@ -32,24 +30,31 @@ $ docker-compose run nodepki ash -c "cd /root/nodepki && node /root/nodepki/node
 $ docker-compose up -d nodepki
 ```
 
-## Trust root certificate 
+goto http://nodepki:5000 anf login
+<img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_user.png" width="250" >
+<img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_loggedin.png" width="250" >
 
-goto http://nodepki:5000 and 
+## Trust root certificate 
 
  * import root and
  * trust root in your keystore
 
+<img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_root.png" width="250" >
+
 [[ SCREENSHOT APPLE KEYSTORE ]]
+<img src="" width="250" >
 
 ## Generate server certificates 
 
 Request new certificate for servers
 
+<img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_new_cert.png" width="250" >
+
  - nexus
  - gitlab
  - gitlab-runner
 
-[[ SCREENSHOT SERVER CERTS ]]
+<img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nodepki_all_certs.png" width="250" >
 
 This generates in /certs/hostname/ like /certs/gitlab the following files:
 
@@ -69,7 +74,7 @@ $ docker-compose up -d nexus
 ```
 goto https://nexus:8443
 
-[[ SCREENSHOT GREEN SSL CONNECTION ]]
+<img src="https://raw.githubusercontent.com/marcelmaatkamp/microservices-platform/master/.gitlab/nexus_green_ssl.png" width="250" >
 
 # Gitlab
 
@@ -79,7 +84,8 @@ goto https://nexus:8443
 docker-compose up -d gitlab
 ```
 
-[[ SCREENSHOT GREEN SSL CONNECTION ]]
+[[ SCREENSHOT GREEN SSL CONNECTION GITLAB]]
+<img src="" width="250" >
 
 ## gitlab-dind:
 
@@ -94,6 +100,7 @@ $ docker-compose up -d gitlab-dind
 ## Gitlab-runner
 
 [[ SCREENSHOT ADMIN GENERIC RUNNER ID IN GITLAB ]]
+<img src="" width="250" >
 
 Create the certificate file at: 
  - `/etc/gitlab-runner/certs/gitlab.crt` on *nix systems when gitlab-runner is executed as root
