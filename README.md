@@ -26,7 +26,8 @@ docker-compose up -d proxy
 Add user thomas/test:
 
 ```
-$ docker-compose run nodepki ash -c "cd /root/nodepki && node /root/nodepki/nodepkictl.js useradd --username thomas --password test"
+$ docker-compose run nodepki ash -c \
+  "cd /root/nodepki && node /root/nodepki/nodepkictl.js useradd --username thomas --password test"
 $ docker-compose up -d nodepki
 ```
 
