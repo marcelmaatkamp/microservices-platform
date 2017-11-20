@@ -7,7 +7,10 @@ services:
   restart: always
   ports:
    - "1080:1080"
-
+  logging:
+   options:
+    max-size: 50m
+    
  nodepki:
   image: adito/nodepki-docker
   volumes:
@@ -27,7 +30,10 @@ services:
   environment:
    - API_USERNAME=${API_USERNAME}
    - API_PASSWORD=${API_PASSWORD}
-
+  logging:
+   options:
+    max-size: 50m
+    
  nexus:
   image: clearent/nexus:latest
   restart: always
@@ -42,7 +48,10 @@ services:
    - ./nexus/etc/nexus.properties:/nexus-data/etc/nexus.properties
   environment:
    - JKS_PASSWORD=${JKS_PASSWORD}
-
+  logging:
+   options:
+    max-size: 50m
+    
  gitlab:
   image: 'gitlab/gitlab-ce:latest'
   restart: always
@@ -57,24 +66,35 @@ services:
     - 'gitlab-data:/var/opt/gitlab'
     - nodepki-certs-gitlab:/etc/gitlab/ssl
     - ./trusted:/etc/gitlab/trusted-certs
-
+  logging:
+   options:
+    max-size: 50m
+    
  gitlab-dind:
   image: docker:17.06.0-ce-dind
   privileged: true
   restart: always
   volumes:
    - dind-data:/var/lib/docker
-
+  logging:
+   options:
+    max-size: 50m
+    
  gitlab-runner:
   image: gitlab/gitlab-runner:alpine
   restart: always
   volumes:
    - /var/run/docker.sock:/var/run/docker.sock
    - ./gitlab-runner/config:/etc/gitlab-runner
-   - ./extras:/usr/share/ca-certificates/extra
-   - ./certs:/etc/ssl/certs
-  environment:
-   - DOCKER_HOST=tcp://gitlab-dind:2375
+   - ./gitlab-runner/daemon.json:/etc/docker/daemon.json
+   - ./extra:/usr/local/share/ca-certificates
+   - ./keys/root.cert:/etc/ssl/certs/ca-certificates.crt
+   - ./ssl:/ssl
+# environment:
+#  - DOCKER_HOST=tcp://gitlab-dind:2375
+  logging:
+   options:
+    max-size: 50m
 
 volumes:
  gitlab-log:
