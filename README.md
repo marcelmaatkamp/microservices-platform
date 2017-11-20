@@ -134,12 +134,13 @@ Create the certificate file at:
 
 ```
 $ docker-compose exec gitlab-runner update-ca-certificates
-$ docker-compose run gitlab-runner register -n \
- --url https://gitlab:8443 \
- --registration-token <<GENERIC_TOKEN_ID>> \
- --executor docker \
- --docker-image docker:17.06.0-ce \
- --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+$ docker-compose exec gitlab-runner gitlab-runner register -n \
+  --url https://gitlab8443 \
+  --registration-token <<TOKEN>> \
+  --executor docker  \
+  --description "My Docker Runner" \
+  --docker-image "docker:latest" \
+  --docker-volumes /var/run/docker.sock:/var/run/docker.sock
 $ docker-compose up -d gitlab-runner
 ```
 
