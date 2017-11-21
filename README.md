@@ -161,7 +161,6 @@ build-docker-image-job:
   entrypoint: [""]
  variables:
    CI_DEBUG_TRACE: "false"
-   DOCKER_PROJECT_VERSION: "latest"
  stage: build
  script:
   - docker-compose build
