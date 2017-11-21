@@ -144,6 +144,32 @@ $ docker-compose exec gitlab-runner gitlab-runner register -n \
 $ docker-compose up -d gitlab-runner
 ```
 
+## Example `.gitlab-ci.yml`
+```
+image:
+  name: docker/compose:1.17.1
+
+stages:
+ - build
+
+# before_script:
+# - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN gitlab.myhostname.com
+
+build-docker-image-job:
+ image:
+  name: docker/compose:1.17.1
+  entrypoint: [""]
+ variables:
+   CI_DEBUG_TRACE: "false"
+   DOCKER_PROJECT_VERSION: "latest"
+ stage: build
+ script:
+  - docker-compose build
+
+ only:
+  - master
+```
+
 ## Validate connection
 
 ```
