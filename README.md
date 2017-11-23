@@ -4,10 +4,10 @@ Development platform - Contains a PKI infrastructure (NodePKI), Code/Source Repo
 
 Contains:
 
- * Socks5 Proxy
- * NodePKI
- * Sonatype Nexus
- * Gitlab 
+ * Socks5 Proxy		- Socks5 proxy
+ * NodePKI 		- PKI infrastructure
+ * Sonatype Nexus	- Repository manager for docker, npm and java
+ * Gitlab:
 	- Gitlab server	- Git repository
 	- Gitlab CI	- Automatic build
 	- Gitlab runner - Automatic builder
@@ -103,24 +103,6 @@ docker-compose up -d gitlab
 
 <img src="" width="250" >
 
-## gitlab-dind:
-
-```
-$ docker-compose up -d gitlab-dind
-```
-
-Add root.crt -> /etc/ssl/certs/ca-certificates.crt
-
-```
-$ docker-compose exec gitlab-dind update-ca-certificates
-```
-
-Test with a pull of alpine:
-
-```
-$ docker-compose exec gitlab-dind docker pull alpine
-```
-
 ## Gitlab-runner
 
 [[ SCREENSHOT ADMIN GENERIC RUNNER ID IN GITLAB ]]
@@ -133,15 +115,15 @@ Create the certificate file at:
  - `./certs/gitlab.crt` on other systems
 
 ```
-$ docker-compose exec gitlab-runner update-ca-certificates
-$ docker-compose exec gitlab-runner gitlab-runner register -n \
-  --url https://gitlab8443 \
-  --registration-token <<TOKEN>> \
-  --executor docker  \
-  --description "My Docker Runner" \
-  --docker-image "docker:latest" \
-  --docker-volumes /var/run/docker.sock:/var/run/docker.sock
 $ docker-compose up -d gitlab-runner
+docker-compose exec gitlab-runner gitlab-runner register -n \
+  --url https://greup2.pirod.nl:8443 \
+  --registration-token N7yPskZskU46wzyQoEVc \
+  --executor docker  \
+  --description "My Docker Runner" \ 
+  --docker-image "docker:latest" \
+  --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+  --docker-volumes /root/.docker/config.json:/root/.docker/config.json
 ```
 
 ## Example `.gitlab-ci.yml`
@@ -155,13 +137,10 @@ stages:
 # before_script:
 # - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN gitlab.myhostname.com
 
-build-docker-image-job:
- image:
-  name: docker/compose:1.17.1
-  entrypoint: [""]
+build:
+ stage: build
  variables:
    CI_DEBUG_TRACE: "false"
- stage: build
  script:
   - docker-compose build
 
