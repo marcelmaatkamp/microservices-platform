@@ -12,6 +12,14 @@ Contains:
 	- Gitlab CI	- Automatic build
 	- Gitlab runner - Automatic builder
 	- Gitlab Dind	- Gitlab Docker Container builder
+	
+# Installation
+
+```
+$ git pull && \
+  cd microservices-platform &&\
+  git submodule update --recursive --remote
+```
 
 # Proxy 
 
