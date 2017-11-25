@@ -21,6 +21,8 @@ Start proxy, opens a SOCKS5 proxy on port :1080
 docker-compose up -d proxy
 ```
 
+Install [Proxy Switch Omega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif) for Google Chrome for example and connect the proxy software to the machine where docker runs on port socks5://docker_machine:1080
+
 # NodePKI
 
 Add user thomas/test:
