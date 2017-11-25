@@ -69,10 +69,18 @@ Now we can start configuring and running the individual servers like nexus and g
 
 # Nexus
 
-Start nexus:
+Nexus needs a java keystore for its SSL certificates. Before we can start Nexus we need to create one where the keys from NodePKI can be found in `/certs/nexus` and are imported in the keystore `nexus.p12`. Do not worry about all those certificates and where to find them, these scripts take care of everyting which is the main motivation for writing this repository.
+
+## Generate Java Keystore
+
 ```
 $ docker-compose run nodepki ash -c 'cd /certs/nexus && openssl pkcs12 -export -in signed.crt -inkey domain.key -chain -CAfile chained.pem  -name "nexus" -out nexus.p12'
 $ docker-compose run nexus ash -c 'cd /certs/nexus && keytool -importkeystore -deststorepass password -destkeystore /nexus-data/keystore.jks -srckeystore nexus.p12 -srcstoretype PKCS12'
+```
+
+## Start nexus
+
+```
 $ docker-compose up -d nexus
 ```
 goto https://nexus:8443
